@@ -1,107 +1,117 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import Swal from 'sweetalert2'
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 function AddToDrawer() {
-  const [drawers, setDrawers] = useState(JSON.parse(localStorage.getItem('drawers')) || [])
-  const [currentDay, setCurrentDay] = useState('')
-  const [firstDay, setFirstDay] = useState(JSON.parse(localStorage.getItem('firstDay')) || '')
-  const [newDay, setNewDay] = useState(JSON.parse(localStorage.getItem('newDay')) || '')
-  const [randomNum, setRandomNum] = useState()
-  const [currentDate, setCurrentDate] = useState('')
+  const [drawers, setDrawers] = useState(
+    JSON.parse(localStorage.getItem("drawers")) || []
+  );
+  const [currentDay, setCurrentDay] = useState("");
+  const [firstDay, setFirstDay] = useState(
+    JSON.parse(localStorage.getItem("firstDay")) || ""
+  );
+  const [newDay, setNewDay] = useState(
+    JSON.parse(localStorage.getItem("newDay")) || ""
+  );
+  const [randomNum, setRandomNum] = useState();
+  const [currentDate, setCurrentDate] = useState("");
 
-  const now = new Date()
+  const now = new Date();
   function formatDate(date) {
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = date.getFullYear()
-    return `${year}-${month}-${day}`
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
   }
-  const formattedDate = formatDate(now)
+  const formattedDate = formatDate(now);
 
-  const nextDay = new Date(now)
-  nextDay.setDate(now.getDate() + 1)
-  const formattedNewDate = formatDate(nextDay)
+  const nextDay = new Date(now);
+  nextDay.setDate(now.getDate() + 1);
+  const formattedNewDate = formatDate(nextDay);
 
   useEffect(() => {
-    setCurrentDay(formattedDate)
-    if (firstDay == '') {
-      setFirstDay(formattedDate)
+    setCurrentDay(formattedDate);
+    if (firstDay == "") {
+      setFirstDay(formattedDate);
     }
-    if (newDay == '') {
-      localStorage.setItem('newDay', JSON.stringify(formattedNewDate))
+    if (newDay == "") {
+      localStorage.setItem("newDay", JSON.stringify(formattedNewDate));
     }
-    randomFun()
-    setCurrentDate(formattedDate)
-  }, [])
+    randomFun();
+    setCurrentDate(formattedDate);
+  }, []);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      name: '',
-      price: ''
-    }
-  })
+      name: "",
+      price: "",
+    },
+  });
 
   function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   function randomFun() {
-    let uniqueRandomNum
+    let uniqueRandomNum;
     do {
-      uniqueRandomNum = randomInt(1, drawers.length + 2)
-    } while (drawers.some((drawer) => drawer.day_id === uniqueRandomNum))
-    setRandomNum(uniqueRandomNum)
+      uniqueRandomNum = randomInt(1, drawers.length + 2);
+    } while (drawers.some((drawer) => drawer.day_id === uniqueRandomNum));
+    setRandomNum(uniqueRandomNum);
   }
 
   useEffect(() => {
-    randomFun()
-  }, [drawers])
+    randomFun();
+  }, [drawers]);
 
-  const drawer = []
+  const drawer = [];
 
   const onSubmit = (data) => {
     if (currentDay == firstDay) {
       if (drawers.length == 0) {
-        drawer.push(data)
-        const newData = { drawer }
-        const newData1 = { day_id: randomNum, date: currentDate, ...newData }
-        drawers.push(newData1)
+        drawer.push(data);
+        const newData = { drawer };
+        const newData1 = { day_id: randomNum, date: currentDate, ...newData };
+        drawers.push(newData1);
       } else if (!drawers[drawers.length - 1]?.drawer) {
-        drawer.push(data)
-        drawers[drawers.length - 1].drawer = drawer
+        drawer.push(data);
+        drawers[drawers.length - 1].drawer = drawer;
       } else {
-        drawers[drawers.length - 1]?.drawer.push(data)
+        drawers[drawers.length - 1]?.drawer.push(data);
       }
-      localStorage.setItem('firstDay', JSON.stringify(currentDay))
-      localStorage.setItem('drawers', JSON.stringify(drawers))
+      localStorage.setItem("firstDay", JSON.stringify(currentDay));
+      localStorage.setItem("drawers", JSON.stringify(drawers));
     } else if (currentDay == newDay || currentDay > newDay) {
-      localStorage.setItem('newDay', JSON.stringify(formattedNewDate))
-      setNewDay(formattedNewDate)
-      drawer.push(data)
-      const newData = { drawer }
-      const newData1 = { day_id: randomNum, date: currentDate, ...newData }
-      drawers.push(newData1)
+      localStorage.setItem("newDay", JSON.stringify(formattedNewDate));
+      setNewDay(formattedNewDate);
+      drawer.push(data);
+      const newData = { drawer };
+      const newData1 = { day_id: randomNum, date: currentDate, ...newData };
+      drawers.push(newData1);
     } else if (!drawers[drawers.length - 1]?.drawer) {
-      drawer.push(data)
-      drawers[drawers.length - 1].drawer = drawer
+      drawer.push(data);
+      drawers[drawers.length - 1].drawer = drawer;
     } else {
-      drawers[drawers.length - 1]?.drawer.push(data)
+      drawers[drawers.length - 1]?.drawer.push(data);
     }
-    localStorage.setItem('drawers', JSON.stringify(drawers))
-    console.log(drawers)
+    localStorage.setItem("drawers", JSON.stringify(drawers));
+    console.log(drawers);
     Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'تم الاضافة ',
+      position: "center",
+      icon: "success",
+      title: "تم الاضافة ",
       showConfirmButton: false,
-      timer: 2000
-    })
-  }
+      timer: 2000,
+    });
+  };
 
   return (
     <div>
+      <Helmet>
+        <title>اضافه مصاريف</title>
+      </Helmet>
       <h2 className="mt-10 text-2xl">اضافه مصاريف</h2>
       <div className="w-[60%] ms-32">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,7 +120,7 @@ function AddToDrawer() {
             type="text"
             required
             placeholder="الاسم"
-            {...register('name')}
+            {...register("name")}
           />
 
           <input
@@ -118,7 +128,7 @@ function AddToDrawer() {
             required
             type="number"
             placeholder="السعر"
-            {...register('price')}
+            {...register("price")}
           />
 
           <button
@@ -130,7 +140,7 @@ function AddToDrawer() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default AddToDrawer
+export default AddToDrawer;
