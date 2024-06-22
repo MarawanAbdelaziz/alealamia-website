@@ -169,7 +169,12 @@ function AddInstallments() {
       const newDate = new Date(initialDate);
       newDate.setMonth(initialDate.getMonth() + i - 1);
       newDate.setDate(data.payday);
+
+      const offset = newDate.getTimezoneOffset();
+      newDate.setMinutes(newDate.getMinutes() - offset + 120);
+
       const formattedDate = newDate.toISOString().split("T")[0];
+
       installmentMonths.push({
         id: i,
         amountPerMonth: data.amountPerMonth,
