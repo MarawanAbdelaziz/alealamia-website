@@ -101,7 +101,7 @@ function DrawerDetails() {
       <div className="pt-28 py-10 text-black ">
         <div ref={componentRef} className="h-fit">
           <h2 className="text-2xl mb-10 text-center">
-            تاريخ اليوم : {drawers[drawerId]?.date}{" "}
+            تاريخ اليوم : {drawers[drawerId]?.date}
           </h2>
           <div className="mb-5">
             {drawers[drawerId]?.installment && (
@@ -123,11 +123,9 @@ function DrawerDetails() {
                     تاريخ الشراء
                   </h3>
                   <h3 className="py-2 border-l border-black pe-2 me-2 w-[75px]">
-                    {" "}
-                    يوم الدفع{" "}
+                    يوم الدفع
                   </h3>
                   <h3 className="py-2 border-l border-black pe-2 me-2 w-[85px] ">
-                    {" "}
                     عدد الشهور
                   </h3>
                   <h3 className="py-2 border-l border-black pe-2 me-2 w-[110px] ">
@@ -162,7 +160,7 @@ function DrawerDetails() {
                       {installment.installmentPeriod}
                     </h3>
                     <h3 className="py-2 border-l border-black pe-2 me-2 w-[110px]">
-                      {installment.remainingMonths}
+                      {installment.remainingMonths - 1}
                     </h3>
                     <h3 className="py-2 border-l border-black pe-2 me-2 w-[110px]">
                       {installment.amountPerMonth}
@@ -195,12 +193,10 @@ function DrawerDetails() {
                     المبلغ الشهري
                   </h3>
                   <h3 className="py-2 border-l border-black pe-2 me-2 w-[85px]">
-                    {" "}
                     عدد الشهور
                   </h3>
                   <h3 className="py-2 border-l border-black pe-2 me-2 w-[75px]">
-                    {" "}
-                    يوم الدفع{" "}
+                    يوم الدفع
                   </h3>
                   <h3 className="py-2 ps-2 w-[100px]"> تاريخ الشراء </h3>
                 </div>
@@ -242,8 +238,7 @@ function DrawerDetails() {
             {drawers[drawerId]?.drawer && (
               <div className="مصادر اخري">
                 <h3 className="mb-3 ms-6 text-lg font-medium mt-20 ">
-                  {" "}
-                  مصادر اخري :{" "}
+                  مصادر اخري :
                 </h3>
                 <div className="mx-6 border border-black px-2 flex font-semibold w-fit ">
                   <h3 className="py-2 border-l border-black pe-2 me-2 w-36 ">
